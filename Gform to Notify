@@ -1,0 +1,32 @@
+var LINE_NOTIFY_TOKEN = "アクセストークン";
+var LINE_NOTIFY_API = "https://notify-api.line.me/api/notify";
+
+//LINEにメッセージを送る
+function sendLineMessage(msg) {
+  var response = UrlFetchApp.fetch(LINE_NOTIFY_API, {
+    "method": "post",
+    "headers": {
+      "Authorization": "Bearer " + LINE_NOTIFY_TOKEN
+    },
+    "payload": {
+      "message": msg
+    }
+  });
+}
+
+
+//スプレッドシートから送信
+function sendSpMsg() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var row = sheet.getLastRow();
+  var name = sheet.getRange(row,2).getValue();
+  var teleohone = sheet.getRange(row,3).getValue();
+  var lineid = sheet.getRange(row,4).getValue();
+  var gender = sheet.getRange(row,5).getValue();
+  var puroise = sheet.getRange(row,6).getValue();
+
+  sendLineMessage('名前:  '+name+ '\n'　+ 
+  '電話番号:  '+teleohone+ '\n' + 
+  'ラインID:  '+lineid+ '\n' + 
+  '性別:  '+gender);
+}
